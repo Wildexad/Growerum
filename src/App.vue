@@ -1,36 +1,62 @@
-<!-- <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <HelloWorld />
-</template> -->
-<template>
-  <div class="app-container">
-    <h1>MVVM Пdример</h1>
+  <div class="app-layout">
+    <AppSidebar />
 
-    <!-- VIEW: Отображение данных -->
-    <div class="card">
-      <p><strong>Имя:</strong> {{ user.name }}</p>
-      <p><strong>Возраст:</strong> {{ user.age }}</p>
-      <p><strong>Статус:</strong> {{ status }}</p>
-      
-      <!-- VIEW: Действие пользователя -->
-      <button @click="user.growOlder()">🎂 Стать старше</button>
-    </div>
+    <main class="main-content">
+      <router-view />
+
+      <footer class="app-footer">
+        © {{ currentYear }} Growerum
+      </footer>
+    </main>
   </div>
 </template>
 
 <script setup>
-// 👇 ВОТ ЭТА СТРОКА СОЕДИНЯЕТ View с ViewModel
-import { useUser } from './composables/useUser';
+import { computed } from 'vue'
+import AppSidebar from '@/components/layout/AppSidebar.vue'
 
-// Вызываем функцию из ViewModel, чтобы получить данные
-const { user, status } = useUser();
+const currentYear = computed(() => new Date().getFullYear())
 </script>
 
 <style>
-.app-container { font-family: sans-serif; padding: 20px; }
-.card { border: 1px solid #ccc; padding: 20px; border-radius: 8px; max-width: 300px; }
-button { margin-top: 10px; cursor: pointer; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f3f4f6;
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+}
+</style>
+
+<style scoped>
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.app-footer {
+  margin-top: auto;
+  padding-top: 40px;
+  font-size: 12px;
+  color: #bbb;
+}
 </style>
