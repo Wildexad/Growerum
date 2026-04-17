@@ -1,22 +1,20 @@
 <template>
   <div class="app-layout">
-    <AppSidebar />
+    <AppSidebar v-if="showSidebar" />
 
-    <main class="main-content">
+    <main class="main-content" :class="{ 'no-sidebar': !showSidebar }">
       <router-view />
-
-      <footer class="app-footer">
-        © {{ currentYear }} Growerum
-      </footer>
     </main>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import AppSidebar from '@/components/layout/AppSidebar.vue'
 
-const currentYear = computed(() => new Date().getFullYear())
+const route = useRoute()
+const showSidebar = computed(() => route.path !== '/login')
 </script>
 
 <style>
@@ -53,10 +51,7 @@ body {
   overflow-y: auto;
 }
 
-.app-footer {
-  margin-top: auto;
-  padding-top: 40px;
-  font-size: 12px;
-  color: #bbb;
+.main-content.no-sidebar {
+  padding: 0;
 }
 </style>

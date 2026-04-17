@@ -2,12 +2,7 @@
   <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="logo-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6.5 12C3 12 2 15 2 17c0 1.7 1 3 3.5 3C8 20 10 18 12 15"/>
-          <path d="M17.5 12C21 12 22 15 22 17c0 1.7-1 3-3.5 3C16 20 14 18 12 15"/>
-          <path d="M12 2v13"/>
-          <path d="M9 6c0 0 1.5 1 3 1s3-1 3-1"/>
-        </svg>
+        <IconLeaf size="24" color="#fff" />
       </div>
       <div class="logo-text">
         <span class="logo-name">Growerum</span>
@@ -17,31 +12,36 @@
 
     <nav class="sidebar-nav">
       <router-link to="/home" class="nav-item" active-class="active">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
+        <IconHome size="18" />
         <span>Главная</span>
       </router-link>
 
       <router-link to="/history" class="nav-item" active-class="active">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <polyline points="12 6 12 12 16 14"/>
-        </svg>
+        <IconHistory size="18" />
         <span>История</span>
       </router-link>
 
       <router-link to="/profile" class="nav-item" active-class="active">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
+        <IconUser size="18" />
         <span>Профиль</span>
       </router-link>
     </nav>
+
+    <div class="sidebar-footer">
+      © {{ currentYear }} Growerum
+    </div>
   </aside>
 </template>
+
+<script setup>
+import { computed } from 'vue'
+import IconLeaf from '@/components/icons/IconLeaf.vue'
+import IconHome from '@/components/icons/IconHome.vue'
+import IconHistory from '@/components/icons/IconHistory.vue'
+import IconUser from '@/components/icons/IconUser.vue'
+
+const currentYear = computed(() => new Date().getFullYear())
+</script>
 
 <style scoped>
 .sidebar {
@@ -117,5 +117,13 @@
 .nav-item.active {
   background: #4CAF50;
   color: #fff;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 12px;
+  color: #bbb;
+  padding: 0 20px;
+  text-align: center;
 }
 </style>

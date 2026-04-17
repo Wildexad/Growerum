@@ -2,20 +2,12 @@
   <div class="user-card">
     <div class="user-header">
       <div class="avatar">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6.5 12C3 12 2 15 2 17c0 1.7 1 3 3.5 3C8 20 10 18 12 15"/>
-          <path d="M17.5 12C21 12 22 15 22 17c0 1.7-1 3-3.5 3C16 20 14 18 12 15"/>
-          <path d="M12 2v13"/>
-          <path d="M9 6c0 0 1.5 1 3 1s3-1 3-1"/>
-        </svg>
+        <IconLeaf size="32" color="#fff" />
       </div>
       <div class="user-info">
         <h3 class="user-name">{{ displayName }}</h3>
         <div class="user-email">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="16" x="2" y="4" rx="2"/>
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/>
-          </svg>
+          <IconMail size="14" color="currentColor" />
           <span>{{ email }}</span>
         </div>
       </div>
@@ -40,6 +32,8 @@
 
 <script setup>
 import { computed } from 'vue'
+import IconLeaf from '@/components/icons/IconLeaf.vue'
+import IconMail from '@/components/icons/IconMail.vue'
 
 const props = defineProps({
   email: {
