@@ -10,7 +10,7 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(router)
 
-// Инициализируем проверку сессии сразу после запуска
+// Инициализируем
 const authStore = useAuthStore()
 authStore.initAuth()
 
