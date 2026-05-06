@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/useAuthStore'
 import HomeView from '@/views/HomeView.vue'
 import DiagnosisView from '@/views/DiagnosisView.vue'
+import DiagnosisResult from '@/components/diagnosis/DiagnosisResult.vue'
 import HistoryView from '@/views/HistoryView.vue'
 import ReferenceView from '@/views/ReferenceView.vue'
 import ProfileView from '@/views/ProfileView.vue'
@@ -12,6 +13,7 @@ const routes = [
   { path: '/login', component: LoginView, meta: { guestOnly: true } },
   { path: '/home', component: HomeView, meta: { requiresAuth: true } },
   { path: '/diagnosis', component: DiagnosisView, meta: { requiresAuth: true } },
+  { path: '/diagnosis/result', component: DiagnosisResult, meta: { requiresAuth: true } },
   { path: '/history', component: HistoryView, meta: { requiresAuth: true } },
   { path: '/reference', component: ReferenceView, meta: { requiresAuth: true } },
   { path: '/profile', component: ProfileView, meta: { requiresAuth: true } },
