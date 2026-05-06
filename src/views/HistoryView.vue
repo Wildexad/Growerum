@@ -42,14 +42,14 @@
 }
 
 .page-title {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   color: #1a1a1a;
-  margin: 0 0 12px;
+  margin: 0 0 8px;
 }
 
 .page-subtitle {
-  font-size: 20px;
+  font-size: 16px;
   color: #6b7280;
   margin: 0;
 }

@@ -8,10 +8,9 @@
         <p class="greeting-sub">Как ваши растения сегодня?</p>
       </div>
       <div class="avatar-icon">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2a9 9 0 0 1 9 9c0 5-4 9-9 9S3 16 3 11a9 9 0 0 1 9-9z"/>
-          <path d="M12 2c0 0-4 4-4 9s4 9 4 9"/>
-          <path d="M3 11h18"/>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.5 10-10 10Z"/>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
         </svg>
       </div>
     </div>
@@ -110,7 +109,10 @@ const plantsCount = 0
 <style scoped>
 .home-page {
   min-height: 100vh;
-  padding: 48px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .home-page > div {
@@ -123,25 +125,25 @@ const plantsCount = 0
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 48px;
+  margin-bottom: 0;
 }
 
 .greeting-title {
-  font-size: 36px;
+  font-size: 24px;
   font-weight: 700;
   color: #1a1a1a;
-  margin: 0 0 8px;
+  margin: 0 0 6px;
 }
 
 .greeting-sub {
-  font-size: 18px;
+  font-size: 15px;
   color: #6b7280;
   margin: 0;
 }
 
 .avatar-icon {
-  width: 80px;
-  height: 80px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: #4caf50;
   display: flex;
@@ -150,12 +152,12 @@ const plantsCount = 0
   flex-shrink: 0;
   cursor: pointer;
   transition: background 0.2s;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .avatar-icon svg {
-  width: 48px;
-  height: 48px;
+  width: 28px;
+  height: 28px;
 }
 
 .avatar-icon:hover {
@@ -166,41 +168,41 @@ const plantsCount = 0
 .tip-card {
   background: linear-gradient(to right, #f0fdf4, #ecfdf5);
   border: 1px solid #d1fae5;
-  border-radius: 24px;
-  padding: 32px;
+  border-radius: 16px;
+  padding: 20px 24px;
   display: flex;
   align-items: flex-start;
-  gap: 20px;
-  margin-bottom: 48px;
+  gap: 16px;
+  margin-bottom: 0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .tip-icon {
   flex-shrink: 0;
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   background: #4caf50;
-  border-radius: 16px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .tip-icon svg {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   stroke: #fff;
 }
 
 .tip-label {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   color: #6b7280;
-  margin: 0 0 8px;
+  margin: 0 0 4px;
 }
 
 .tip-body {
-  font-size: 20px;
+  font-size: 15px;
   color: #1f2937;
   margin: 0;
 }
@@ -208,28 +210,28 @@ const plantsCount = 0
 /* Diagnose card */
 .diagnose-card {
   background: #4caf50;
-  border-radius: 24px;
-  padding: 32px;
+  border-radius: 16px;
+  padding: 24px;
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 48px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
 }
 
 .diagnose-card:hover {
   background: #45a049;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
 .diagnose-img {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   background: rgba(255,255,255,0.2);
-  border-radius: 16px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -241,20 +243,20 @@ const plantsCount = 0
 }
 
 .diagnose-img svg {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   stroke: #fff;
 }
 
 .diagnose-title {
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 700;
   color: #fff;
-  margin: 0 0 8px;
+  margin: 0 0 4px;
 }
 
 .diagnose-sub {
-  font-size: 18px;
+  font-size: 14px;
   color: rgba(255,255,255,0.9);
   margin: 0;
 }
@@ -263,7 +265,7 @@ const plantsCount = 0
 .bottom-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 20px;
 }
 
 .bottom-grid > *:first-child,
@@ -278,48 +280,48 @@ const plantsCount = 0
 .bottom-card {
   background: #fff;
   border: 2px solid #e5e7eb;
-  border-radius: 24px;
-  padding: 32px;
+  border-radius: 16px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   cursor: pointer;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.2s;
 }
 
 .bottom-card:hover {
   border-color: #d1d5db;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
 .bottom-icon {
   margin-bottom: 0;
-  width: 80px;
-  height: 80px;
+  width: 56px;
+  height: 56px;
   background: #f9fafb;
-  border-radius: 16px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .bottom-icon svg {
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
 }
 
 .bottom-title {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   color: #1f2937;
   margin: 0;
 }
 
 .bottom-link {
-  font-size: 14px;
+  font-size: 13px;
   color: #4caf50;
   margin: 0;
   text-align: center;
@@ -335,10 +337,10 @@ const plantsCount = 0
 }
 
 .stats-label {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   color: #6b7280;
-  margin: 0 0 24px;
+  margin: 0 0 16px;
   text-align: center;
 }
 
@@ -357,15 +359,15 @@ const plantsCount = 0
 }
 
 .stat-num {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 700;
   color: #4caf50;
   line-height: 1;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .stat-desc {
-  font-size: 14px;
+  font-size: 12px;
   color: #6b7280;
   line-height: 1.4;
 }
