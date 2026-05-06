@@ -107,21 +107,30 @@ const averageConfidence = computed(() => {
 
 onMounted(async () => {
   try {
-    // Пытаемся загрузить из Supabase с таймаутом
+    // Загружаем из localStorage
+    const cached = localStorage.getItem('diagnosisHistory')
+    if (cached) {
+      const parsedData = JSON.parse(cached)
+      console.log('Загружено из localStorage:', parsedData.length, 'записей')
+      history.value = parsedData
+    }
+    
+    // Затем пытаемся загрузить из Supabase (фоновая синхронизация)
     const loadPromise = diagnosisStore.loadDiagnosisHistory()
     const timeoutPromise = new Promise((_, reject) => 
       setTimeout(() => reject(new Error('Таймаут загрузки')), 5000)
     )
     
     await Promise.race([loadPromise, timeoutPromise])
-    history.value = diagnosisStore.diagnoses
-  } catch (error) {
-    console.warn('Supabase недоступен, загружаем из localStorage:', error.message)
-    // Загружаем из localStorage как fallback
-    const cached = localStorage.getItem('diagnosisHistory')
-    if (cached) {
-      history.value = JSON.parse(cached)
+    
+    // Если Supabase вернул данные - обновляем
+    if (diagnosisStore.diagnoses.length > 0) {
+      history.value = diagnosisStore.diagnoses
+      console.log('Обновлено из Supabase:', history.value.length, 'записей')
     }
+  } catch (error) {
+    console.warn('Supabase недоступен, используем localStorage:', error.message)
+    // Данные уже загружены из localStorage выше
   } finally {
     loading.value = false
   }

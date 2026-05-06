@@ -19,10 +19,10 @@ export const useDiagnosisStore = defineStore('diagnosis', () => {
 
     // Загрузить историю диагностик из Supabase
     async function loadDiagnosisHistory() {
-        loading.value = true
         error.value = null
 
         try {
+            console.log('Загрузка из Supabase...')
             // Пытаемся загрузить из Supabase с таймаутом
             const loadPromise = supabase
                 .from('diagnosis_history')
@@ -37,6 +37,7 @@ export const useDiagnosisStore = defineStore('diagnosis', () => {
 
             if (fetchError) throw fetchError
 
+            console.log('Загружено из Supabase:', data?.length || 0, 'записей')
             diagnoses.value = data || []
             
             // Сохраняем в localStorage как кэш
@@ -46,16 +47,14 @@ export const useDiagnosisStore = defineStore('diagnosis', () => {
         } catch (err) {
             error.value = err.message
             console.warn('Ошибка загрузки из Supabase:', err.message)
-            
-            // Загружаем из localStorage как запасной вариант
+            console.log('Используем данные из localStorage')
+            // Данные уже загружены в HistoryView из localStorage
+            // Просто обновляем diagnoses в store
             const cached = localStorage.getItem('diagnosisHistory')
             if (cached) {
                 diagnoses.value = JSON.parse(cached)
-            } else {
-                diagnoses.value = []
+                console.log('Обновлено diagnoses в store:', diagnoses.value.length, 'записей')
             }
-        } finally {
-            loading.value = false
         }
     }
 
@@ -122,6 +121,7 @@ export const useDiagnosisStore = defineStore('diagnosis', () => {
             
             diagnoses.value.unshift(localEntry)
             localStorage.setItem('diagnosisHistory', JSON.stringify(diagnoses.value))
+            console.log('Сохранено в localStorage. Всего записей:', diagnoses.value.length)
             
             error.value = 'Сохранено локально. Таблицы Supabase ещё не созданы.'
             return localEntry
