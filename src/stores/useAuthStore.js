@@ -49,10 +49,12 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     async function signOut() {
-        const { error } = await supabase.auth.signOut()
-        if (error) throw error
+        // Сначала сбрасываем state — чтобы роутер-гуард
+        // видел isAuthenticated = false при push('/login')
         user.value = null
         session.value = null
+        const { error } = await supabase.auth.signOut()
+        if (error) throw error
     }
 
     return {

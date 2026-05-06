@@ -52,21 +52,30 @@ const handleSettingsNav = (target) => {
 </script>
 
 <style scoped>
+.profile-page {
+  min-height: 100vh;
+  padding: 48px;
+}
+
+.profile-page > div {
+  max-width: 1280px;
+  margin: 0 auto;
+}
 .page-header {
-  margin-bottom: 28px;
+  margin-bottom: 48px;
 }
 
 .page-title {
-  font-size: 26px;
+  font-size: 36px;
   font-weight: 700;
   color: #1a1a1a;
-  margin: 0;
+  margin: 0 0 12px;
 }
 
 .page-subtitle {
-  font-size: 14px;
-  color: #999;
-  margin: 4px 0 0;
+  font-size: 20px;
+  color: #6b7280;
+  margin: 0;
 }
 
 .profile-grid {

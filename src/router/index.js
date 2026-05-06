@@ -25,9 +25,6 @@ const router = createRouter({
 router.beforeEach((to) => {
   const authStore = useAuthStore()
 
-  // Ждём пока Pinia инициализируется (loading флаг)
-  if (authStore.loading) return true
-
   const isAuth = authStore.isAuthenticated
 
   // Защищённые маршруты — нужен вход

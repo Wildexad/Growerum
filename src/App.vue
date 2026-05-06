@@ -44,7 +44,8 @@ body {
 
 .main-content {
   flex: 1;
-  padding: 32px 40px;
+  margin-left: 256px;
+  padding: 48px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -54,4 +55,5 @@ body {
 .main-content.no-sidebar {
   padding: 0;
 }
+
 </style>

@@ -10,8 +10,9 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(router)
 
-// Инициализируем проверку сессии сразу после запуска
+// Ждём проверки сессии ПЕРЕД монтированием,
+// чтобы роутер знал статус аутентификации при первом переходе
 const authStore = useAuthStore()
-authStore.initAuth()
-
-app.mount('#app')
+authStore.initAuth().then(() => {
+  app.mount('#app')
+})
