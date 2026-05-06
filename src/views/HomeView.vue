@@ -121,10 +121,26 @@ onMounted(async () => {
 
   // Загружаем историю для статистики
   try {
+    // Сначала загружаем из localStorage
+    const cached = localStorage.getItem('diagnosisHistory')
+    if (cached) {
+      const parsedData = JSON.parse(cached)
+      diagnosisCount.value = parsedData.length
+      savedPlantsCount.value = Math.floor(diagnosisCount.value * 0.67)
+      console.log('Статистика загружена из localStorage:', {
+        диагнозов: diagnosisCount.value,
+        растений: savedPlantsCount.value
+      })
+    }
+    
+    // Затем синхронизируем с Supabase
     await diagnosisStore.loadDiagnosisHistory()
     diagnosisCount.value = diagnosisStore.totalDiagnoses
-    // В будущем можно добавить логику для savedPlantsCount
-    savedPlantsCount.value = Math.floor(diagnosisCount.value * 0.67) // Примерно 2/3
+    savedPlantsCount.value = Math.floor(diagnosisCount.value * 0.67)
+    console.log('Статистика обновлена:', {
+      диагнозов: diagnosisCount.value,
+      растений: savedPlantsCount.value
+    })
   } catch (error) {
     console.error('Ошибка загрузки статистики:', error)
   }
