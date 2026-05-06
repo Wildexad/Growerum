@@ -42,8 +42,8 @@
                 </div>
 
                 <div class="entry-info">
-                  <h3>{{ entry.disease }}</h3>
-                  <p class="entry-date">{{ formatDate(entry.date) }}</p>
+                  <h3>{{ entry.disease_name }}</h3>
+                  <p class="entry-date">{{ formatDate(entry.created_at) }}</p>
                   <div class="confidence-bar-wrapper">
                     <div class="confidence-bar">
                       <div class="confidence-fill" :style="{ width: entry.confidence + '%' }"></div>
@@ -93,8 +93,11 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useDiagnosisStore } from '@/stores/useDiagnosisStore'
 
+const diagnosisStore = useDiagnosisStore()
 const history = ref([])
+const loading = ref(true)
 
 const averageConfidence = computed(() => {
   if (history.value.length === 0) return 0
@@ -102,14 +105,27 @@ const averageConfidence = computed(() => {
   return Math.round(sum / history.value.length)
 })
 
-onMounted(() => {
-  loadHistory()
+onMounted(async () => {
+  try {
+    // Пытаемся загрузить из Supabase с таймаутом
+    const loadPromise = diagnosisStore.loadDiagnosisHistory()
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Таймаут загрузки')), 5000)
+    )
+    
+    await Promise.race([loadPromise, timeoutPromise])
+    history.value = diagnosisStore.diagnoses
+  } catch (error) {
+    console.warn('Supabase недоступен, загружаем из localStorage:', error.message)
+    // Загружаем из localStorage как fallback
+    const cached = localStorage.getItem('diagnosisHistory')
+    if (cached) {
+      history.value = JSON.parse(cached)
+    }
+  } finally {
+    loading.value = false
+  }
 })
-
-const loadHistory = () => {
-  const historyData = JSON.parse(localStorage.getItem('diagnosisHistory') || '[]')
-  history.value = historyData
-}
 
 const formatDate = (dateString) => {
   const date = new Date(dateString)
@@ -122,9 +138,14 @@ const formatDate = (dateString) => {
   }).format(date)
 }
 
-const handleDelete = (id) => {
-  history.value = history.value.filter(entry => entry.id !== id)
-  localStorage.setItem('diagnosisHistory', JSON.stringify(history.value))
+const handleDelete = async (id) => {
+  try {
+    await diagnosisStore.deleteDiagnosis(id)
+    history.value = diagnosisStore.diagnoses
+  } catch (error) {
+    console.error('Ошибка удаления:', error)
+    alert('Ошибка удаления: ' + error.message)
+  }
 }
 </script>
 

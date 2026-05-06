@@ -40,6 +40,8 @@ body {
 .app-layout {
   display: flex;
   min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .main-content {
@@ -47,7 +49,7 @@ body {
   padding: 32px 40px;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   overflow-y: auto;
 }
 

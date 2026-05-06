@@ -46,12 +46,16 @@ const currentYear = computed(() => new Date().getFullYear())
 <style scoped>
 .sidebar {
   width: 220px;
+  height: 100vh;
   background: #fff;
   border-right: 1px solid #ebebeb;
   display: flex;
   flex-direction: column;
   padding: 24px 0;
   flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
 }
 
 .sidebar-logo {

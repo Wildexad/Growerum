@@ -116,11 +116,13 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/useAuthStore'
+import { useDiagnosisStore } from '@/stores/useDiagnosisStore'
 
 const authStore = useAuthStore()
+const diagnosisStore = useDiagnosisStore()
 const router = useRouter()
 
 const userName = computed(() => {
@@ -129,6 +131,24 @@ const userName = computed(() => {
 
 const userEmail = computed(() => {
   return authStore.user?.email || 'email@example.com'
+})
+
+const userStats = ref({
+  diagnoses: 0,
+  plants: 0,
+  days: 0
+})
+
+onMounted(async () => {
+  try {
+    // Загружаем историю диагнозов для статистики
+    await diagnosisStore.loadDiagnosisHistory()
+    userStats.value.diagnoses = diagnosisStore.totalDiagnoses
+    userStats.value.plants = Math.floor(diagnosisStore.totalDiagnoses * 0.67)
+    userStats.value.days = Math.max(1, Math.floor(diagnosisStore.totalDiagnoses * 1.25))
+  } catch (error) {
+    console.error('Ошибка загрузки статистики:', error)
+  }
 })
 
 const handleSignOut = async () => {

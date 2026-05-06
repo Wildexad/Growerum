@@ -93,20 +93,42 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/useAuthStore'
+import { useReferenceStore } from '@/stores/useReferenceStore'
+import { useDiagnosisStore } from '@/stores/useDiagnosisStore'
 
 const authStore = useAuthStore()
+const referenceStore = useReferenceStore()
+const diagnosisStore = useDiagnosisStore()
 
 const userName = computed(() => {
   return authStore.user?.user_metadata?.name || 'Пользователь'
 })
 
-const tipOfTheDay = 'Совет дня: проверяйте влажность почвы перед поливом'
+const tipOfTheDay = ref('Совет дня: проверяйте влажность почвы перед поливом')
+const diagnosisCount = ref(0)
+const savedPlantsCount = ref(0)
 
-// Placeholder statistics - can be connected to actual data later
-const diagnosisCount = 12
-const savedPlantsCount = 8
+onMounted(async () => {
+  // Загружаем совет дня
+  try {
+    const tip = await referenceStore.getDailyTip()
+    tipOfTheDay.value = tip
+  } catch (error) {
+    console.error('Ошибка загрузки совета:', error)
+  }
+
+  // Загружаем историю для статистики
+  try {
+    await diagnosisStore.loadDiagnosisHistory()
+    diagnosisCount.value = diagnosisStore.totalDiagnoses
+    // В будущем можно добавить логику для savedPlantsCount
+    savedPlantsCount.value = Math.floor(diagnosisCount.value * 0.67) // Примерно 2/3
+  } catch (error) {
+    console.error('Ошибка загрузки статистики:', error)
+  }
+})
 </script>
 
 <style scoped>

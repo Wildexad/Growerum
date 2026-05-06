@@ -31,7 +31,7 @@
           <div class="diagnosis-card">
             <div class="diagnosis-header">
               <div class="diagnosis-info">
-                <h2>{{ diagnosis.disease }}</h2>
+                <h2>{{ diagnosis.name }}</h2>
                 <p>{{ diagnosis.description }}</p>
               </div>
               <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -133,59 +133,73 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { DiagnosisService } from '@/services/diagnosisService'
+import { useDiagnosisStore } from '@/stores/useDiagnosisStore'
 
 const router = useRouter()
+const diagnosisStore = useDiagnosisStore()
+
 const loading = ref(true)
 const diagnosis = ref(null)
 const showExplanation = ref(false)
 const saved = ref(false)
 
-onMounted(() => {
+onMounted(async () => {
   const answersJson = localStorage.getItem('diagnosisAnswers')
   if (!answersJson) {
     router.push('/')
     return
   }
 
-  // Simulate diagnosis based on answers
-  setTimeout(() => {
-    diagnosis.value = {
-      disease: 'Мучнистая роса',
-      confidence: 92,
-      description: 'Грибковое заболевание, проявляющееся в виде белого налёта на листьях и стеблях. Обычно возникает при повышенной влажности и плохой вентиляции.',
-      recommendations: [
-        'Удалить поражённые листья и части растения',
-        'Обработать растение фунгицидом (например, раствор соды или специализированное средство)',
-        'Обеспечить хорошую вентиляцию помещения',
-        'Сократить полив и избегать попадания воды на листья',
-        'Переместить растение в более освещённое место',
-      ],
-      explanation: [
-        'Обнаружены симптомы: белый налёт на листьях',
-        'Указано местоположение: недостаточное освещение',
-        'Режим полива: избыточная влажность',
-        'Совокупность факторов указывает на грибковую инфекцию',
-      ],
-    }
+  try {
+    const answers = JSON.parse(answersJson)
+    
+    // Анализируем ответы с помощью DiagnosisService
+    const result = DiagnosisService.analyze(answers)
+    
+    // Добавляем ответы к результату для сохранения
+    result.answers = answers
+    
+    diagnosis.value = result
     loading.value = false
-  }, 500)
+  } catch (error) {
+    console.error('Ошибка анализа:', error)
+    router.push('/diagnosis')
+  }
 })
 
-const handleSave = () => {
-  // Save to history
-  const history = JSON.parse(localStorage.getItem('diagnosisHistory') || '[]')
-  const newEntry = {
-    id: Date.now(),
-    date: new Date().toISOString(),
-    ...diagnosis.value,
-  }
-  history.unshift(newEntry)
-  localStorage.setItem('diagnosisHistory', JSON.stringify(history))
-  saved.value = true
+const handleSave = async () => {
+  if (!diagnosis.value) return
+  
+  try {
+    loading.value = true
+    
+    // Сохраняем в Supabase через store
+    await diagnosisStore.saveDiagnosis({
+      disease: diagnosis.value.name,
+      confidence: diagnosis.value.confidence,
+      description: diagnosis.value.description,
+      recommendations: diagnosis.value.recommendations,
+      explanation: diagnosis.value.explanation,
+      answers: diagnosis.value.answers
+    })
+    
+    saved.value = true
+    
+    // Показываем сообщение если сохранено локально
+    if (diagnosisStore.error) {
+      console.warn(diagnosisStore.error)
+    }
 
-  setTimeout(() => {
-    router.push('/history')
-  }, 1000)
+    setTimeout(() => {
+      router.push('/history')
+    }, 1000)
+  } catch (error) {
+    console.error('Ошибка сохранения:', error)
+    alert('Ошибка сохранения: ' + error.message)
+  } finally {
+    loading.value = false
+  }
 }
 
 const handleNewDiagnosis = () => {
